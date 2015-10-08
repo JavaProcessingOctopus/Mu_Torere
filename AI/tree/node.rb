@@ -23,4 +23,14 @@ class Node
                         current_player
                 )
         end
+        
+        def calculate_heuristic_value()
+                #if i'm a leaf
+                if son == nil
+                        #i can calculate my value
+                        @heuristic_value = heuristic.calculate_value(@board, current_player)
+                #if i'm a branch
+                else
+                        #i must ask my sons what their best value is
+                        
 end
