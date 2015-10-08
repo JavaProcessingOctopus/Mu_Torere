@@ -18,10 +18,7 @@ class Node
                 @current_player = current_player
                 @heuristic = heuristic
                 @piece_played = piece_played
-                @heuristic_value = heuristic.calculate_value(
-                        @board,
-                        current_player
-                )
+                @heuristic_value = nil
         end
         
         def calculate_heuristic_value(@board, current_player) #calculates personal heuristic_value and returns best value to father
