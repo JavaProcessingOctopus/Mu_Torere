@@ -3,14 +3,14 @@
 class Alpha_Beta
         # Here we are creating the next nodes, which are function
         # of the number of playable pieces
-        def self.build_next_board_states(node, depth = 2, alpha = -Float::INFINITY, beta = Float::INFINITY) #method returns node
+        def self.build_next_board_states(node, depth = 3, alpha = -Float::INFINITY, beta = Float::INFINITY) #method returns node
 				initial_board = node.board
                 current_node = node
                 new_node = nil
                 player = node.current_player
                 ennemy = MT_Tools.get_ennemy(node.current_player)
                 first_son = false
-               
+				
 				alpha = alpha #alpha is always smaller than beta
 				beta = beta
 				depth = depth
@@ -42,19 +42,19 @@ class Alpha_Beta
 												current_node = current_node.son
 												first_son = true
 										end
-                                       
-                                       
+										
 										if(current_node.son != nil)#if i have my first son
 												#the follow part checks if i should continue making brothers or cut te tree
 												if(current_node.son.heuristic_value == nil)
 														current_node.son.calculate_heuristic_value()
 												end
 												value = current_node.son.heuristic_value
-												if((player == "A") && (alpha > value))
-													alpha = value
-												elsif((player == "B") && (beta < value))
-                                                      beta = value
-												else break #cutting branch
+												if((player == "A") && (alpha <= value))
+														alpha = value
+												elsif((player == "B") && (beta >= value))
+														beta = value
+												else
+												        break #cutting branch
 												end
 										end
 								end
