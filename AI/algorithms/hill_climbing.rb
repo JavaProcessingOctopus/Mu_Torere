@@ -15,7 +15,7 @@ class Hill_Climbing
                 # For each move you can play,
                 # Create a son node with the heuristic value of
                 # that play. 
-                (1..9).each do |spot| 
+                (1..9).each do |spot|
                         if initial_board.can_be_moved(spot, player)
                                 node_board = initial_board.clone
                                 node_board.move(spot)
@@ -30,6 +30,7 @@ class Hill_Climbing
                                         ennemy,
                                         spot
                                 )
+                                new_node.calculate_heuristic_value
 
                                 # First node is the son, others are his
                                 # brothers.
