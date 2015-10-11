@@ -20,8 +20,8 @@ class Maximize_Heterogeneity
                                 # Decrement total for each piece the 
                                 # enne my ahs close to the current player's
                                 # one.
-                                total += prev == ennemy ? 1 : 0
-                                total += nex == ennemy ? 1 : 0
+                                total += prev != player ? 0 : 1
+                                total += nex != player ? 0 : 1
                         end
                         total
                 end
