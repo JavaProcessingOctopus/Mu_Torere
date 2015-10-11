@@ -3,7 +3,7 @@
 class Alpha_Beta
         # Here we are creating the next nodes, which are function
         # of the number of playable pieces
-        def self.build_next_board_states(node, depth = 5, alpha = -Float::INFINITY, beta = Float::INFINITY) #method returns node
+        def self.build_next_board_states(node, depth = 30, alpha = -Float::INFINITY, beta = Float::INFINITY) #method returns node
 				initial_board = node.board
                 current_node = node
                 new_node = nil
@@ -45,17 +45,22 @@ class Alpha_Beta
 												first_son = true
 										end
 										
-										if(current_node.son != nil)#if i have my first son
+										if(node.son != nil)#if i have my first son
 												#the follow part checks if i should continue making brothers or cut te tree
-												if(current_node.son.heuristic_value == nil)
-														current_node.son.calculate_heuristic_value()
+												if(current_node.heuristic_value == nil)
+														current_node.calculate_heuristic_value()
 												end
-												value = current_node.son.heuristic_value
-												if((player == ia_player) && (alpha <= value))
-														alpha = value
-												elsif((player != ia_player) && (beta >= value))
-														beta = value
+												value = current_node.heuristic_value
+												if((player == ia_player) && (alpha < value))
+														    #puts "previous alpha: #{alpha}"#TODO remove
+														    alpha = value
+											          #puts"changing alpha to: #{alpha}"#TODO remove
+												elsif((player != ia_player) && (beta > value))
+												        #puts "previous alpha: #{beta}"#TODO remove
+												        beta = value
+											          #puts"changing alpha to: #{beta}"#TODO remove
 												else
+												        #puts"cuting branch"#TODO remove
 												        break #cutting branch
 												end
 										end
