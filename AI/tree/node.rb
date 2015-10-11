@@ -30,7 +30,7 @@ class Node
                 #searching for personal heuristic_value
                 if (@son == nil) #if i'm a leaf
 						#i can calculate my value
-						@heuristic_value = heuristic.calculate_value(@board, @current_player)
+						@heuristic_value = heuristic.calculate_value(@board, @ai_player)
 				else #if i'm a branch
 						#i must ask my value to my son
 						@heuristic_value = @son.calculate_heuristic_value()
