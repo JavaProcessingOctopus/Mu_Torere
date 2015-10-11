@@ -3,11 +3,12 @@
 class Alpha_Beta
         # Here we are creating the next nodes, which are function
         # of the number of playable pieces
-        def self.build_next_board_states(node, depth = 3, alpha = -Float::INFINITY, beta = Float::INFINITY) #method returns node
+        def self.build_next_board_states(node, depth = 5, alpha = -Float::INFINITY, beta = Float::INFINITY) #method returns node
 				initial_board = node.board
                 current_node = node
                 new_node = nil
                 player = node.current_player
+                ia_player = node.ia_player
                 ennemy = MT_Tools.get_ennemy(node.current_player)
                 first_son = false
 				
@@ -29,7 +30,8 @@ class Alpha_Beta
 												# ennemy enable us to chain
 												# this method.
 												ennemy,
-												spot
+												spot,
+												ia_player
 										)
 										self.build_next_board_states(new_node, depth-1, alpha, beta)
 										# First node is the son, others are his
@@ -49,9 +51,9 @@ class Alpha_Beta
 														current_node.son.calculate_heuristic_value()
 												end
 												value = current_node.son.heuristic_value
-												if((player == "A") && (alpha <= value))
+												if((player == ia_player) && (alpha <= value))
 														alpha = value
-												elsif((player == "B") && (beta >= value))
+												elsif((player != ia_player) && (beta >= value))
 														beta = value
 												else
 												        break #cutting branch
@@ -82,6 +84,7 @@ class Alpha_Beta
                 #puts "Piece played : #{node.piece_played}"
                 #puts "Heuristic : #{node.heuristic_value}"
                 end
+                #node.to_s
                 return piece_to_play
         end
 end

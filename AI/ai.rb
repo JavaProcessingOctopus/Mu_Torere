@@ -12,7 +12,7 @@ class AI
         end
 
         def play(board)
-                node = Node.new(nil, nil, board, heuristic, @player, nil)
+                node = Node.new(nil, nil, board, heuristic, @player, nil, @player)
                 @algo.build_next_board_states(node)
                 board.move(@algo.search_best_move(node))
         end
