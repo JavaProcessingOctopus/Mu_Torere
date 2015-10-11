@@ -27,7 +27,7 @@ class Hill_Climbing
                                         # Setting the son node to
                                         # ennemy enable us to chain
                                         # this method.
-                                        ennemy,
+                                        player,
                                         spot
                                 )
                                 new_node.calculate_heuristic_value
