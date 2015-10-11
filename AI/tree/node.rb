@@ -3,7 +3,8 @@
 class Node
         attr_accessor :son, :brother
         attr_reader :board, :heuristic, 
-                :heuristic_value, :current_player, :piece_played, :ia_player
+                :heuristic_value, :current_player, :piece_played,
+                :ai_player
 
         def initialize(son, 
                        brother, 
@@ -11,7 +12,7 @@ class Node
                        heuristic, 
                        current_player, 
                        piece_played = nil,
-                       ia_player
+                       ai_player
                       )
                 @son = son #maybe we could put a recursive call with a parameter for depth to build the tree from node.rb and not algo.rb
                 @brother = brother #same thing for brother
@@ -20,7 +21,7 @@ class Node
                 @heuristic = heuristic
                 @piece_played = piece_played
                 @heuristic_value = nil
-                @ia_player=ia_player
+                @ai_player=ai_player
                 #puts "new node"
         end
         
@@ -43,10 +44,10 @@ class Node
                 else
 						#i must choose the best value for my father
 						brother_best_value = @brother.calculate_heuristic_value()
-						if (@current_player == @ia_player) #if i'm a max node(enemy turn) #TODO if values of current_player change, then correct this
+						if (@current_player == @ai_player) #if i'm a max node(enemy turn) #TODO if values of current_player change, then correct this
 								#then the best value is the smallest value
                                 best_value = brother_best_value < @heuristic_value ? brother_best_value : @heuristic_value
-                        elsif (@current_player != @ia_player) #if i'm a min node(my turn) #TODO if values of current_player change, then correct this
+                        elsif (@current_player != @ai_player) #if i'm a min node(my turn) #TODO if values of current_player change, then correct this
                                 #then the best value is the smallest value
                                 best_value = brother_best_value > @heuristic_value ? brother_best_value : @heuristic_value
                         else #this should not happpen
@@ -59,7 +60,7 @@ class Node
         def to_s(depth = 0)# this method prints the node tree
 				depth = depth
 				puts "|Val: #{ @heuristic_value } Pl: #{ @current_player} lv: #{depth}|"
-				puts "|son|{" if (@son != nil)#beging listing sons
+				print "|son|{" if (@son != nil)#beging listing sons
 				@son.to_s(depth+1) if (@son != nil)
 				puts"}"#end listing sons
 				puts "|bro|" if(@brother != nil)
