@@ -4,7 +4,7 @@ class Alpha_Beta
         # Here we are creating the next nodes, which are function
         # of the number of playable pieces
         def self.build_next_board_states(node, 
-                                         depth = 5, 
+                                         depth = 15, 
                                          alpha = nil, 
                                          beta = nil,
                                          min_max = "max"
@@ -33,14 +33,14 @@ class Alpha_Beta
 #------------- Iterate over every spot of the game. ------------------
                 (1..9).each do |spot|
                 #------------------  cutting branches ----------------
-                        if alpha != nil && beta != nil && beta <= alpha
-                                #puts "BREAK"
-                                #break
+                        if alpha != nil && beta != nil && beta >= alpha
+                                puts "BREAK"
+                                break
                         end
 
                 #----- Create new node with new board state ----------- 
                         if initial_board.can_be_moved(spot, player)
-                                puts "#{'  '*(7-depth)}New iteration at depth #{depth} on pion #{spot}"
+                                puts "#{'  '*(15-depth)}New iteration at depth #{depth} on pion #{spot}"
                                 node_board = initial_board.clone
                 #----- The piece being on the current spot is moved ---
                                 node_board.move(spot)
@@ -56,10 +56,10 @@ class Alpha_Beta
                 #---- If this new node is a leaf, calculate its value -
                                 if depth == 1
                                         new_node.calculate_heuristic_value()
-                                        puts "#{'  '*(7-depth)}HERE depth : #{depth}, pion : #{spot} value : #{new_node.heuristic_value}"
+                                        puts "#{'  '*(15-depth)}HERE depth : #{depth}, pion : #{spot} value : #{new_node.heuristic_value}"
                                 else
                 #------- Otherwise recursively build a new one --------
-                                        puts "#{'  '*(7-depth)}enter recursive call at depth : #{depth}"
+                                        puts "#{'  '*(15-depth)}enter recursive call at depth : #{depth}"
                                         new_node.heuristic_value = self.build_next_board_states(
                                                 new_node,
                                                 depth-1,
@@ -67,7 +67,7 @@ class Alpha_Beta
                                                 beta,
                                                 next_step_min_max
                                         )
-                                        puts "#{'  '*(7-depth)}Out of recursive call at depth : #{depth}, pion : #{spot}, value : #{new_node.heuristic_value}"
+                                        puts "#{'  '*(15-depth)}Out of recursive call at depth : #{depth}, pion : #{spot}, value : #{new_node.heuristic_value}"
                                 end
                                 
                                 # Shortening lines
@@ -120,9 +120,6 @@ class Alpha_Beta
                                 end
                         end
                 end
-                if depth == 1
-                        node.heuristic_value = value_to_return
-                end
                 return value_to_return
         end
 
@@ -133,16 +130,16 @@ class Alpha_Beta
 				piece_to_play = node.piece_played
                 
                 best_heuristic_found = node.heuristic_value
-                #puts "Piece played : #{node.piece_played}"
-                #puts "Heuristic : #{node.heuristic_value}"
+                puts "Piece played : #{node.piece_played}"
+                puts "Heuristic : #{node.heuristic_value}"
                 while node.brother
                         node = node.brother
                         if best_heuristic_found < node.heuristic_value
                                 best_heuristic_found = node.heuristic_value
                                 piece_to_play = node.piece_played
                         end
-                #puts "Piece played : #{node.piece_played}"
-                #puts "Heuristic : #{node.heuristic_value}"
+                puts "Piece played : #{node.piece_played}"
+                puts "Heuristic : #{node.heuristic_value}"
                 end
                 #node.to_s
                 return piece_to_play
