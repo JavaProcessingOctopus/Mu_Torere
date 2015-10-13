@@ -5,12 +5,12 @@ class Alpha_Beta
         # of the number of playable pieces
         def self.build_next_board_states(node, 
                                          depth = 15, 
-                                         alpha = nil, 
-                                         beta = nil,
-                                         min_max = "max"
+                                         alpha = -Float::INFINITY, 
+                                         beta = Float::INFINITY,
+                                         max_node_bool = true
                                         ) 
 
-                next_step_min_max = min_max == "max" ? "min" : "max"
+                next_step_max_node_bool = !max_node_bool
 				initial_board = node.board
                 current_node = node
                 new_node = nil
@@ -18,22 +18,26 @@ class Alpha_Beta
                 ennemy = MT_Tools.get_ennemy(node.current_player)
                 first_son_created = false
 				
-				alpha = alpha # min
-				beta = beta # max
+				alpha = alpha # max
+				beta = beta # min
 				depth = depth
 
-                value_to_return = nil
 
 # ------------ Stop if someone has won on this node ------------------
                 if initial_board.lost?(player)
                         value_to_return = node.calculate_heuristic_value()
                         return value_to_return
+# ------------ Else, initialise the value to return ------------------
+                elsif max_node_bool
+                        value_to_return = -Float::INFINITY
+                elsif !max_node_bool
+                        value_to_return = Float::INFINITY
                 end
 
 #------------- Iterate over every spot of the game. ------------------
                 (1..9).each do |spot|
                 #------------------  cutting branches ----------------
-                        if alpha != nil && beta != nil && beta >= alpha
+                        if alpha >= beta
                                 puts "BREAK"
                                 break
                         end
@@ -65,7 +69,7 @@ class Alpha_Beta
                                                 depth-1,
                                                 alpha,
                                                 beta,
-                                                next_step_min_max
+                                                next_step_max_node_bool
                                         )
                                         puts "#{'  '*(15-depth)}Out of recursive call at depth : #{depth}, pion : #{spot}, value : #{new_node.heuristic_value}"
                                 end
@@ -79,44 +83,31 @@ class Alpha_Beta
                                         current_node.son = new_node
                                         current_node = new_node
                                         first_son_created = true
-                    #------ And get the value of that first son in ----
-                    #------- order to return it to its father ---------
-                                        value_to_return = nnhv
-
-                                        if (min_max == "max" &&
-                                            (beta == nil ||
-                                            nnhv > beta))
-                                                beta = nnhv
-                                        elsif (min_max == "min" &&
-                                               (alpha == nil ||
-                                               nnhv < alpha))
-                                                alpha = nnhv
-                                        end
-
                                 else
                 #- Otherwise bind it to the current node, meaning any -
                 # node in the brother chain on the father's first son -
                                         current_node.brother = new_node
                                         current_node = new_node
+                                end
 
-                # And compare the value to return to this son's value -
-                # Replace the value to return if this one fits better -
-                                        if (min_max == "max" && 
-                        #--- If we are in a Max node, we are getting --
-                        #--- the Max from our sons --------------------
-                                           value_to_return < nnhv)
-                                                value_to_return = nnhv
-                        #----- Being in a Max node also means we have -
-                        #----- to set the beta value to pass it to ----
-                        #----- our futures childs ---------------------
-                                                beta = value_to_return
-                                        elsif (min_max == "min" &&
-                        #----- A Min node get the Min from its sons ---
-                                              value_to_return > nnhv)
-                                                value_to_return = nnhv
-                        # In a Min node, the Alpha value have to be set
-                                                alpha = value_to_return
-                                        end
+                # ------------ Finally, do two things : ---------------
+                # --- First, Get the max or min of the alpha or beta
+                #     and the new node heuristic value ----------------
+                # --- Second, set the value to return at the max or min
+                # between the alpha or beta and the new node heuristic
+                # value -----------------------------------------------
+                                if max_node_bool
+                                        alpha = [alpha, nnhv].max
+                                        value_to_return = [
+                                                value_to_return,
+                                                nnhv
+                                        ].max
+                                else
+                                        beta = [beta, nnhv].min
+                                        value_to_return = [
+                                                value_to_return,
+                                                nnhv
+                                        ].min
                                 end
                         end
                 end
