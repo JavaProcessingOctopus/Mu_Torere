@@ -4,7 +4,7 @@ class Alpha_Beta
         # Here we are creating the next nodes, which are function
         # of the number of playable pieces
         def self.build_next_board_states(node, 
-                                         depth = 15, 
+                                         depth = 5, 
                                          alpha = -Float::INFINITY, 
                                          beta = Float::INFINITY,
                                          max_node_bool = true
@@ -16,7 +16,6 @@ class Alpha_Beta
                 new_node = nil
                 player = node.current_player
                 ennemy = MT_Tools.get_ennemy(node.current_player)
-                first_son_created = false
 				
 				alpha = alpha # max
 				beta = beta # min
@@ -44,7 +43,7 @@ class Alpha_Beta
 
                 #----- Create new node with new board state ----------- 
                         if initial_board.can_be_moved(spot, player)
-                                puts "#{'  '*(15-depth)}New iteration at depth #{depth} on pion #{spot}"
+                                puts "#{'  '*(5-depth)}New iteration at depth #{depth} on pion #{spot}"
                                 node_board = initial_board.clone
                 #----- The piece being on the current spot is moved ---
                                 node_board.move(spot)
@@ -60,10 +59,10 @@ class Alpha_Beta
                 #---- If this new node is a leaf, calculate its value -
                                 if depth == 1
                                         new_node.calculate_heuristic_value()
-                                        puts "#{'  '*(15-depth)}HERE depth : #{depth}, pion : #{spot} value : #{new_node.heuristic_value}"
+                                        puts "#{'  '*(5-depth)}HERE depth : #{depth}, pion : #{spot} value : #{new_node.heuristic_value}"
                                 else
                 #------- Otherwise recursively build a new one --------
-                                        puts "#{'  '*(15-depth)}enter recursive call at depth : #{depth}"
+                                        puts "#{'  '*(5-depth)}enter recursive call at depth : #{depth}"
                                         new_node.heuristic_value = self.build_next_board_states(
                                                 new_node,
                                                 depth-1,
@@ -71,7 +70,7 @@ class Alpha_Beta
                                                 beta,
                                                 next_step_max_node_bool
                                         )
-                                        puts "#{'  '*(15-depth)}Out of recursive call at depth : #{depth}, pion : #{spot}, value : #{new_node.heuristic_value}"
+                                        puts "#{'  '*(5-depth)}Out of recursive call at depth : #{depth}, pion : #{spot}, value : #{new_node.heuristic_value}"
                                 end
                                 
                                 # Shortening lines
@@ -79,7 +78,7 @@ class Alpha_Beta
 
                 #- If the last node created, recursively or not, is the
                 #- father node's first son, bind it to him as its son -
-                                if !first_son_created
+                                if !node.son
                                         current_node.son = new_node
                                         current_node = new_node
                                         first_son_created = true
