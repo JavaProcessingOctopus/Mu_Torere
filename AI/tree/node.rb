@@ -13,15 +13,14 @@ class Node
                        piece_played = nil,
                        ai_player
                       )
-                @son = son #maybe we could put a recursive call with a parameter for depth to build the tree from node.rb and not algo.rb
-                @brother = brother #same thing for brother
+                @son = son 
+                @brother = brother 
                 @board = board
                 @current_player = current_player
                 @heuristic = heuristic
                 @piece_played = piece_played
                 @heuristic_value = nil
-                @ai_player=ai_player
-                #puts "new node"
+                @ai_player = ai_player
         end
         
         def calculate_heuristic_value() 

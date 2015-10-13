@@ -22,7 +22,7 @@ class Mu_Torere
                 @lost = false
                 @current_player = nil
                 @ai = AI.new(
-                        Alpha_Beta,
+                        Hill_Climbing,
                         Maximize_Plays,
                         'A'
                 )
