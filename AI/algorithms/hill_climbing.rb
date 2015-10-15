@@ -28,7 +28,8 @@ class Hill_Climbing
                                         # ennemy enable us to chain
                                         # this method.
                                         player,
-                                        spot
+                                        spot,
+                                        node.ai_player
                                 )
                                 new_node.calculate_heuristic_value
 

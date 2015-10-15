@@ -1,22 +1,20 @@
 #encoding: UTF-8
 
-class Maximize_Heterogeneity
+class Difference_Around_Empty_Spot
         def self.calculate_value(board, player)
-                # The putahi doesn't matter here, since it's not next
-                # any other piece.
                 (1..8).inject(0) do |total, spot|
                         if board.get_string_value(
                                         board.get_piece(spot)
-                        ) == player
+                        ) == '0'
                                 prev = board.get_string_value(
                                         board.get_previous(spot)
                                 )
                                 nex = board.get_string_value(
                                         board.get_next(spot)
                                 )
-                                
-                                total += prev != player ? 0 : 1
-                                total += nex != player ? 0 : 1
+
+                                total += prev == player ? 2 : -2
+                                total += nex == player ? 2 : -2
                         end
                         total
                 end

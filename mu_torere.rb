@@ -23,9 +23,14 @@ class Mu_Torere
                 @current_player = nil
                 @ai = AI.new(
                         Alpha_Beta,
-                        Minimize_Ennemy_Plays,
-                        'A'
+                        Complex_Heuristic,
+                        'B'
                 )
+                #@ai2 = AI.new(
+                        #Alpha_Beta,
+                        #Maximize_Plays,
+                        #'B'
+                #)
         end
 
         def next_player()
@@ -37,6 +42,8 @@ class Mu_Torere
                 puts @game_board.to_s
                 if @current_player == @ai.player
                         @ai.play(@game_board)
+                #elsif @current_player == @ai2.player
+                        #@ai2.play(@game_board)
                 else
                         # This is where the playing takes place
                         input = gets.to_i
