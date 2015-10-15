@@ -5,7 +5,9 @@ class Maximize_Heterogeneity
                 # The putahi doesn't matter here, since it's not next
                 # any other piece.
                 (1..8).inject(0) do |total, spot|
-                        if board.get_string_value(board.get_piece(spot)) == player
+                        if board.get_string_value(
+                                        board.get_piece(spot)
+                        ) == player
                                 prev = board.get_string_value(
                                         board.get_previous(spot)
                                 )
