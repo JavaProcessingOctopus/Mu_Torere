@@ -14,7 +14,7 @@ class Difference_Around_Empty_Spot
                                 )
 
                                 total += prev == player ? 2 : -2
-                                total += prev == player ? 2 : -2
+                                total += nex == player ? 2 : -2
                         end
                         total
                 end
