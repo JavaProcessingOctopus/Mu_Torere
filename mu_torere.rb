@@ -23,14 +23,14 @@ class Mu_Torere
                 @current_player = nil
                 @ai = AI.new(
                         Alpha_Beta,
-                        Complex_Heuristic,
+                        Maximize_Plays,
+                        'A'
+                )
+                @ai_2 = AI.new(
+                        Alpha_Beta,
+                        Maximize_Heterogeneity,
                         'B'
                 )
-                #@ai2 = AI.new(
-                        #Alpha_Beta,
-                        #Maximize_Plays,
-                        #'B'
-                #)
         end
 
         def next_player()
@@ -42,8 +42,8 @@ class Mu_Torere
                 puts @game_board.to_s
                 if @current_player == @ai.player
                         @ai.play(@game_board)
-                #elsif @current_player == @ai2.player
-                        #@ai2.play(@game_board)
+                elsif @current_player == @ai_2.player
+                        @ai_2.play(@game_board)
                 else
                         # This is where the playing takes place
                         input = gets.to_i
@@ -61,12 +61,16 @@ class Mu_Torere
 
         def lost?()
                 you_lost() if @game_board.lost?(@current_player)
+                
         end
 
         def you_lost()
                 puts @game_board.to_s
                 p "Player : " + @current_player + " lost the game."
                 @lost = true
+                MT_Tools.save_match(@ai, @ai_2, @current_player)
+                @ai.tool.save_data  #TODO erase
+                @ai_2.tool.save_data  #TODO erase
         end
 end
 
