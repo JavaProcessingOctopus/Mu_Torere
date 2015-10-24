@@ -1,11 +1,9 @@
-#encoding: UTF-8
+# encoding: UTF-8
 
-require_relative "../../board"
-
-class Maximize_Plays
-        def self.calculate_value(board, player)
-                (1..9).inject(0) do |total, spot|
-                        total += board.can_be_moved(spot, player) ? 1 : 0
-                end
-        end
+class MaximizePlays
+  def self.calculate_value(board, player)
+    (1..9).inject(0) do |total, spot|
+      total + board.can_be_moved(spot, player) ? 1 : 0
+    end
+  end
 end
