@@ -18,7 +18,7 @@ class GameBoard
   end
 
   def clone
-    Game_Board.new(
+    GameBoard.new(
       @outer_board.clone,
       @putahi ? @putahi.clone : nil
     )

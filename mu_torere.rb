@@ -22,8 +22,8 @@ class MuTorere
     @lost = false
     @current_player = nil
     @ai = AI.new(
-      Alpha_Beta,
-      Complex_Heuristic,
+      AlphaBeta,
+      ComplexHeuristic,
       'B'
     )
     #@ai2 = AI.new(
