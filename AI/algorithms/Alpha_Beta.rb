@@ -111,9 +111,9 @@ class AlphaBeta
   end
 
   # Then play the move with the highest value
-		def self.search_best_move(node)
+  def self.search_best_move(node)
     node = node.son
-				piece_to_play = node.piece_played
+    piece_to_play = node.piece_played
     best_heuristic_found = node.heuristic_value
     #puts "Piece played : #{node.piece_played}"
     #puts "Heuristic : #{node.heuristic_value}"

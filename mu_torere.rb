@@ -25,7 +25,7 @@ class MuTorere < Gosu::Window
     # Gosu
     super 631, 634
     self.caption = "Mu Torere"
-    @num = 0
+    @num = 0 # Trace 
     @Score = Gosu::Font.new(20)
     @ScoreUpdate = "Rouge : 0 / 0 : Jaune"
     @background_image = Gosu::Image.new("media/plateau.jpg", :tileable => true)
@@ -52,13 +52,13 @@ class MuTorere < Gosu::Window
     @ai = AI.new(
       AlphaBeta,
       ComplexHeuristic,
+      'A'
+    )
+    @ai2 = AI.new(
+      HillClimbing,
+      MaximizePlays,
       'B'
     )
-    #@ai2 = AI.new(
-      #AlphaBeta,
-      #MaximizePlays,
-      #'B'
-    #)
   end
 
   def next_player
@@ -66,10 +66,12 @@ class MuTorere < Gosu::Window
   end
 
   def move(input = nil)
+    @num += 1 # Trace
+    p @num # Trace
     if @current_player == @ai.player
       @ai.play(@game_board)
-    #elsif @current_player == @ai2.player
-      #@ai2.play(@game_board)
+    elsif @current_player == @ai2.player
+      @ai2.play(@game_board)
     else
       if !input
         return false
@@ -78,9 +80,9 @@ class MuTorere < Gosu::Window
         return false
       end
       @game_board.move(input)
-      sleep(0.5)
     end
     @bad_piece = false
+      sleep(0.5)
     return true
   end
 

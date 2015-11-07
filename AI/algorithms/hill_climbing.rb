@@ -6,14 +6,14 @@ class HillClimbing
   # of the number of playable pieces
   def self.build_next_board_states(current_node)
     new_node = nil
-    player = node.current_player
+    player = current_node.current_player
     first_son = false
 
     # For each move you can play,
     # Create a son node with the heuristic value of
     # that play.
     (1..9).each do |spot|
-      next unless current_node.board.can_be_moved(spot_player)
+      next unless current_node.board.can_be_moved(spot, player)
       node_board = current_node.board.clone
       node_board.move(spot)
       new_node = Node.new(
