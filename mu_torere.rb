@@ -144,7 +144,9 @@ class MuTorere < Gosu::Window
     elsif button_down? Gosu::Button::KbNumpad9
       num = 9
     end
-    next_player if move(num) && !lost?
+    if !lost?
+      next_player if move(num)
+    end
   end
 
   def draw_piece(index, player)
