@@ -28,7 +28,8 @@ class MinMax
                                         # ennemy enable us to chain
                                         # this method.
                                         ennemy,
-                                        spot
+                                        spot,
+                                        current_node.ai_player
                                 )
 
                                 # First node is the son, others are his
