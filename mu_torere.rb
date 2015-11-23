@@ -87,7 +87,15 @@ class MuTorere < Gosu::Window
   end
 
   def lost?
-    @lost = true if @game_board.lost?(@current_player)
+    if @game_board.lost?(@current_player)
+      @lost = true
+      MT_Tools.save_match(@ai, @ai2, @current_player)
+      @ai.tool.save_data
+      puts "1 saved"
+      puts "try 2"
+      @ai2.tool.save_data
+      puts "2 saved"
+    end
   end
 
 # ------------------------------------------------------------------  Gosu
