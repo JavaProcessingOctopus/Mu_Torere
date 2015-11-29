@@ -38,6 +38,7 @@ class MuTorere < Gosu::Window
     @Position8 = Gosu::Font.new(20)
     @Position9 = Gosu::Font.new(20)
     @player = Gosu::Font.new(20)
+    @game_over = Gosu::Font.new(20)
     @red_piece = Gosu::Image.new("media/pion/circle-red.png")
     @orange_piece = Gosu::Image.new("media/pion/circle-orange.png")
     @coordinates = [[314, 40], [120, 122], [37,317], [119, 512], [314, 595], [509,512], [592, 317], [509, 122], [314,317]]
@@ -49,12 +50,12 @@ class MuTorere < Gosu::Window
     @current_player = nil
     @input = nil
     @ai = AI.new(
-      AlphaBeta,
-      ComplexHeuristic,
+      AlphaBeta2,
+      MaximizePlays,
       'A'
     )
     @ai2 = AI.new(
-      MinMax,
+      MinMax2,
       MaximizePlays,
       'B'
     )
@@ -65,12 +66,17 @@ class MuTorere < Gosu::Window
   end
 
   def move(input = nil)
-    @num += 1 # Trace
-    p @num # Trace
+    if !@lost
+      @num += 1 # Trace
+      p @num # Trace
+    end
+    if @num > 45
+      close
+    end
     if @current_player == @ai.player
-      @ai.play(@game_board)
+      @ai.play(@game_board)if !@game_board.lost?(@current_player)
     elsif @current_player == @ai2.player
-      @ai2.play(@game_board)
+      @ai2.play(@game_board)if !@game_board.lost?(@current_player)
     else
       if !input
         return false
@@ -81,7 +87,7 @@ class MuTorere < Gosu::Window
       @game_board.move(input)
     end
     @bad_piece = false
-      sleep(0.5)
+    sleep(0.5)
     return true
   end
 
@@ -94,6 +100,8 @@ class MuTorere < Gosu::Window
       puts "try 2"
       @ai2.tool.save_data
       puts "2 saved"
+      sleep (5)
+      close
     end
   end
 
@@ -113,10 +121,11 @@ class MuTorere < Gosu::Window
     @Position6.draw("6", 373, 365, 0, 1.0, 1.0, 0xff_000000)
     @Position7.draw("7", 407, 304, 0, 1.0, 1.0, 0xff_000000)
     @Position8.draw("8", 373, 245, 0, 1.0, 1.0, 0xff_000000)
-    @Position9.draw("9", 310, 304, 0, 1.0, 1.0, 0xff_000000)
+    @Position9.draw("9", 310, 304, 0, 1.0, 1.0, 0xff_000000)    
 
     if @lost
       show_state("Player #{@current_player} lost the game")
+      @game_over.draw("GAME OVER", 400, 15, 0, 2.0, 2.0, 0xff_000000)
     elsif @bad_piece
       show_state("You can't move that piece")
     else
@@ -167,6 +176,9 @@ class MuTorere < Gosu::Window
   end
     
   def button_down(id)
+    if id == Gosu::KbSpace
+       sleep(5)
+    end
     if id == Gosu::KbEscape
        close
     end

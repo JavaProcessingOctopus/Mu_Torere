@@ -1,8 +1,8 @@
 #encoding: UTF-8
 
 require_relative './tree/node'
-require_relative '../mt_tools'
-require_relative '../Tool'
+require_relative '../Mechanism/mt_tools'
+require_relative '../Mechanism/Tool'
 
 class AI
         attr_reader :algo, :heuristic, :player, :tool

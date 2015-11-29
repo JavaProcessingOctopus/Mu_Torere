@@ -1,9 +1,9 @@
-# encoding: UTF-8
-class AlphaBeta
+#encoding: UTF-8
+class MinMax2
   # Here we are creating the next nodes, which are function
   # of the number of playable pieces
   def self.build_next_board_states(node,
-    depth = 1,
+    depth = 15,
     alpha = -Float::INFINITY,
     beta = Float::INFINITY,
     max_node_bool = true
@@ -15,8 +15,8 @@ class AlphaBeta
     new_node = nil
     player = node.current_player
     ennemy = MT_Tools.get_ennemy(node.current_player)
-    alpha = alpha # max
-    beta = beta # min
+    max = max 
+    min = min 
     depth = depth
 
     # ------------ Stop if someone has won on this node ------------------
@@ -32,11 +32,6 @@ class AlphaBeta
 
     #------------- Iterate over every spot of the game. ------------------
     (1..9).each do |spot|
-    #------------------  cutting branches ----------------
-      if alpha >= beta
-      #puts "BREAK"
-      break
-      end
 
       #----- Create new node with new board state -----------
       if initial_board.can_be_moved(spot, player)
@@ -63,15 +58,12 @@ class AlphaBeta
         new_node.heuristic_value = self.build_next_board_states(
         new_node,
         depth-1,
-        alpha,
-        beta,
+        max,
+        min,
         next_step_max_node_bool
         )
         #puts "#{'  '*(5-depth)}Out of recursive call at depth : #{depth}, value : #{new_node.heuristic_value}, alpha : #{alpha}, beta : #{beta}"
         end
-
-        # Shortening lines
-        nnhv = new_node.heuristic_value
 
         #- If the last node created, recursively or not, is the
         #- father node's first son, bind it to him as its son -
@@ -91,19 +83,6 @@ class AlphaBeta
         # --- Second, set the value to return at the max or min
         # between the alpha or beta and the new node heuristic
         # value -----------------------------------------------
-        if max_node_bool
-          alpha = [alpha, nnhv].max
-          value_to_return = [
-            value_to_return,
-            nnhv
-          ].max
-        else
-          beta = [beta, nnhv].min
-          value_to_return = [
-            value_to_return,
-            nnhv
-          ].min
-        end
       end
     end
     return value_to_return
