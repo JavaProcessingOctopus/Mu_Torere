@@ -1,8 +1,6 @@
 # encoding: UTF-8
 
 require 'gosu'
-require_relative 'board'
-require_relative 'mt_tools'
 
 module ZOrder
   Background, Move, Player, UI = *0..3
@@ -17,6 +15,7 @@ def recursive_require(file)
 end
 
 recursive_require('./AI')
+recursive_require('./Mechanism')
 
 class MuTorere < Gosu::Window
   attr_reader :game_board, :lost, :current_player
@@ -55,7 +54,7 @@ class MuTorere < Gosu::Window
       'A'
     )
     @ai2 = AI.new(
-      HillClimbing,
+      MinMax,
       MaximizePlays,
       'B'
     )
