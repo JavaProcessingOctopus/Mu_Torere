@@ -1,0 +1,2 @@
+name:AlphaBeta2_MaximizePlays:time_to_move:t_average:0.0:t_weight:5:number_of_node:n_average:482:n_weight:5:
+name:MinMax2_MaximizePlays:time_to_move:t_average:0.0:t_weight:4:number_of_node:n_average:7826:n_weight:4:
