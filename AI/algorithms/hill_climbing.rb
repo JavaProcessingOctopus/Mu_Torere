@@ -1,5 +1,4 @@
 # encoding: UTF-8
-
 # Simple algorithme, which doesn't go deep - 1st floor actually.
 class HillClimbing
   # Here we are creating the next nodes, which are function
@@ -18,28 +17,28 @@ class HillClimbing
       node_board = current_node.board.clone
       node_board.move(spot)
       new_node = Node.new(
-        nil,
-        nil,
-        node_board,
-        current_node.heuristic,
-        # Setting the son node to
-        # ennemy enable us to chain
-        # this method.
-        player,
-        spot,
-        current_node.ai_player
+      nil,
+      nil,
+      node_board,
+      current_node.heuristic,
+      # Setting the son node to
+      # ennemy enable us to chain
+      # this method.
+      player,
+      spot,
+      current_node.ai_player
       )
       new_node.calculate_heuristic_value
 
       # First node is the son, others are his
       # brothers.
       if first_son
-        current_node.brother = new_node
-        current_node = current_node.brother
+      current_node.brother = new_node
+      current_node = current_node.brother
       else
-        current_node.son = new_node
-        current_node = current_node.son
-        first_son = true
+      current_node.son = new_node
+      current_node = current_node.son
+      first_son = true
       end
     end
   end
@@ -54,8 +53,8 @@ class HillClimbing
     while node.brother
       node = node.brother
       if best_heuristic_found < node.heuristic_value
-        best_heuristic_found = node.heuristic_value
-        piece_to_play = node.piece_played
+      best_heuristic_found = node.heuristic_value
+      piece_to_play = node.piece_played
       end
     #puts "Piece played : #{node.piece_played}"
     #puts "Heuristic : #{node.heuristic_value}"

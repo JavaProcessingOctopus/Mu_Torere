@@ -27,7 +27,7 @@ class MT_Tools
                 else
                         winner = p1_name
                 end
-                file = File.new("match_results", "a+")
+                file = File.new("match_results.txt", "a+")
                         file.puts "#{p1_name} vs #{p2_name}: Win #{winner}"     
                 file.close        
         end
@@ -39,7 +39,7 @@ class MT_Tools
                       return count_nodes(node.brother) + 1
               elsif node.son != nil && node.brother == nil
                       return count_nodes(node.son) + 1
-              else#if node.son!=nil && node.brother !=nil
+              elsif node.son!=nil && node.brother !=nil
                       return count_nodes(node.son) + count_nodes(node.brother) + 1
               end
         end
